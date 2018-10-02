@@ -1,4 +1,4 @@
-def app = [appName: 'admin-application',   appPort: '7001']
+def app = [appName: 'admin-application',   appPort: '9401']
 
 pipeline {
 
