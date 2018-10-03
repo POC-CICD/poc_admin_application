@@ -15,4 +15,4 @@ spec:
 
   selector:
     name: admin-application
-    deploymentType: GREEN
+    deploymentType: BLUE
