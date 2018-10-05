@@ -12,11 +12,17 @@ metadata:
     name: admin-application
     service: admin-application-service
 spec:
-  replicas: 1
+  replicas: 2
+  minReadySeconds: 25
   selector:
     matchLabels:
       name: admin-application
       type: frontend
+  strategy:
+          type: RollingUpdate
+          rollingUpdate:
+            maxUnavailable: 1
+            maxSurge: 1
   template:
     metadata:
       labels:
