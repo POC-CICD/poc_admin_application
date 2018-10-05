@@ -1,0 +1,67 @@
+apiVersion: apps/v1beta2
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ru-deployment
+---
+kind: Deployment
+metadata:
+  name: admin-application
+  namespace: ru-deployment
+  labels:
+    name: admin-application
+    service: admin-application-service
+spec:
+  replicas: 2
+  minReadySeconds: 25
+  selector:
+    matchLabels:
+      name: admin-application
+      type: frontend
+  strategy:
+          type: RollingUpdate
+          rollingUpdate:
+            maxUnavailable: 1
+            maxSurge: 1
+  template:
+    metadata:
+      labels:
+        name: admin-application
+        type: frontend
+    spec:
+      containers:
+      - name: admin-application
+        image: nisumpk/admin_application
+        ports:
+        - containerPort: 9401
+        env:
+        - name: MY_POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: SERVER_PORT
+          value: -Dserver.port=9401
+        - name: BIZ_APPLICATION_URL
+          value: -Dbiz.application.url=http://biz-application-service.default.svc.cluster.local:9601
+        - name: DISCOVERY_SERVER_URL
+          value: "-Deureka.client.serviceUrl.defaultZone=http://discovery-server-service.ru-deployment.svc.cluster.local:7001/eureka/"
+        command: ["java"]
+        args: ["$(SERVER_PORT)", "$(DISCOVERY_SERVER_URL)", "$(BIZ_APPLICATION_URL)", "-Deureka.instance.preferIpAddress=true", "-Deureka.instance.ipAddress=$(MY_POD_IP)", "-jar", "/usr/src/admin-application-SNAPSHOT.jar"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: admin-application-service
+  namespace: ru-deployment
+  labels:
+    name: admin-application-service
+spec:
+  type: NodePort
+  ports:
+  - port: 9401
+    nodePort: 30053
+    targetPort: 9401
+    protocol: TCP
+
+  selector:
+    name: admin-application
