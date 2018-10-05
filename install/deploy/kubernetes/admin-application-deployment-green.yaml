@@ -2,7 +2,7 @@ apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   name: admin-application-green
-  namespace: default
+  namespace: devopspoc
   labels:
     name: admin-application
     service: admin-application-service
