@@ -19,10 +19,10 @@ spec:
       name: admin-application
       type: frontend
   strategy:
-          type: RollingUpdate
-          rollingUpdate:
-            maxUnavailable: 1
-            maxSurge: 1
+        type: RollingUpdate
+        rollingUpdate:
+          maxUnavailable: 1
+          maxSurge: 1
   template:
     metadata:
       labels:
@@ -38,11 +38,13 @@ spec:
         - name: SERVER_PORT
           value: -Dserver.port=9401
         - name: BIZ_APPLICATION_URL
-          value: -Dbiz.application.url=http://biz-application-service.default.svc.cluster.local:9601
+          value: -Dbiz.application.url=http://biz-application-service:9601
         - name: DISCOVERY_SERVER_URL
-          value: "-Deureka.client.serviceUrl.defaultZone=http://discovery-server-service.ru-deployment.svc.cluster.local:7001/eureka/"
+          value: "-Deureka.client.serviceUrl.defaultZone=http://discovery-server-service:7001/eureka/"
         command: ["java"]
         args: ["$(SERVER_PORT)", "$(DISCOVERY_SERVER_URL)", "$(BIZ_APPLICATION_URL)", "-Deureka.instance.preferIpAddress=true", "-Deureka.instance.ipAddress=admin-application-service", "-jar", "/usr/src/admin-application-SNAPSHOT.jar"]
+
+
         readinessProbe:
           httpGet:
             path: /
