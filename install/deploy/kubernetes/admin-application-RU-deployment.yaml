@@ -42,7 +42,7 @@ spec:
         - name: DISCOVERY_SERVER_URL
           value: "-Deureka.client.serviceUrl.defaultZone=http://discovery-server-service.ru-deployment.svc.cluster.local:7001/eureka/"
         command: ["java"]
-        args: ["$(SERVER_PORT)", "$(DISCOVERY_SERVER_URL)", "$(BIZ_APPLICATION_URL)", "-Deureka.instance.preferIpAddress=true", "-Deureka.instance.ipAddress=$(MY_POD_IP)", "-jar", "/usr/src/admin-application-SNAPSHOT.jar"]
+        args: ["$(SERVER_PORT)", "$(DISCOVERY_SERVER_URL)", "$(BIZ_APPLICATION_URL)", "-Deureka.instance.preferIpAddress=true", "-Deureka.instance.ipAddress=admin-application-service", "-jar", "/usr/src/admin-application-SNAPSHOT.jar"]
         readinessProbe:
           httpGet:
             path: /
