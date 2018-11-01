@@ -21,7 +21,7 @@ def deleteK8Config(configPath) {
 }
 
 node {
-  URL apiUrl = new URL("https://hub.docker.com/v2/repositories/nisumpk/biz_application/tags/?page_size=1024")
+  URL apiUrl = new URL("https://hub.docker.com/v2/repositories/nisumpk/admin_application/tags/?page_size=1024")
   def json = new JsonSlurper().parseText(apiUrl.text)
   def tags = json.results.name
   list = tags.join('\n')
