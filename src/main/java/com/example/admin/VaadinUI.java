@@ -24,7 +24,7 @@ public class VaadinUI extends UI {
         getReconnectDialogConfiguration().setDialogText("Please wait...");
         getReconnectDialogConfiguration().setReconnectInterval(1000);
 
-        Label title = new Label("Companies1");
+        Label title = new Label("Companies v1.0.1");
         title.addStyleName(ValoTheme.LABEL_H2);
 
         crud.getGrid().setColumns("name", "twitterUsername");
