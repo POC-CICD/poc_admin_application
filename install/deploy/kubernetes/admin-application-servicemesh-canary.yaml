@@ -10,7 +10,12 @@ spec:
   - route:
     - destination:
         host: admin-application
-        subset: admin-application-v1
+        subset: admin-application-production
+      weight: 90
+    - destination:
+        host: admin-application
+        subset: admin-application-uat
+      weight: 10
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
@@ -20,6 +25,9 @@ metadata:
 spec:
   host: admin-application
   subsets:
-  - name: admin-application-v1
+  - name: admin-application-production
     labels:
-      version: admin-application-v1
+      version: admin-application-production
+  - name: admin-application-uat
+    labels:
+      version: admin-application-uat
