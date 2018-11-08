@@ -1,29 +1,13 @@
 apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: admin-application-gateway
-  namespace: canary
-spec:
-  selector:
-    istio: ingressgateway # use istio default controller
-  servers:
-  - port:
-      number: 81
-      name: http81
-      protocol: HTTP
-    hosts:
-    - "*"
----
-apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: admin-application-virtualservice
   namespace: canary
 spec:
   gateways:
-  - admin-application-gateway
+  - canary-server-gateway
   hosts:
-  - "*"
+  - "adminapp.devopspoc.com"
   http:
   - route:
     - destination:
