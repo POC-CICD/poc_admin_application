@@ -8,8 +8,8 @@ spec:
     istio: ingressgateway # use istio default controller
   servers:
   - port:
-      number: 8111
-      name: http8111
+      number: 81
+      name: http81
       protocol: HTTP
     hosts:
     - "*"
