@@ -1,0 +1,52 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: canary-server-gateway
+  namespace: canary
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - hosts:
+    - '*'
+    port:
+      name: http
+      number: 80
+      protocol: HTTP
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: admin-application-virtualservice
+  namespace: canary
+spec:
+  gateways:
+  - canary-server-gateway
+  hosts:
+  - "adminapp.umair.link"
+  http:
+  - route:
+    - destination:
+        host: admin-application
+        subset: admin-application-production
+      weight: 90
+    - destination:
+        host: admin-application
+        subset: admin-application-uat
+      weight: 10
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: admin-application-dr
+  namespace: canary
+spec:
+  host: admin-application
+  subsets:
+  - name: admin-application-production
+    labels:
+      version: admin-application-production
+  - name: admin-application-uat
+    labels:
+      version: admin-application-uat

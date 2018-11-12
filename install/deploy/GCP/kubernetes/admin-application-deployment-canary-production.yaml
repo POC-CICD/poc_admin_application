@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: admin-application
+  namespace: canary
+  labels:
+    app: admin-application
+spec:
+  type: NodePort
+  ports:
+  - port: 9401
+    nodePort: 30254
+    targetPort: 9401
+    name: http
+  selector:
+    app: admin-application
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: admin-application-production
+  namespace: canary
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: admin-application
+        version: admin-application-production
+    spec:
+      containers:
+      - name: admin-application-production
+        image: nisumpk/admin_application
+        ports:
+        - containerPort: 9401
+        env:
+        - name: SERVER_PORT
+          value: -Dserver.port=9401
+        - name: BIZ_APPLICATION_URL
+          value: -Dbiz.application.url=http://biz-application:9601
+        - name: DISCOVERY_SERVER_URL
+          value: "-Deureka.client.serviceUrl.defaultZone=http://discovery-server:7001/eureka/"
+        command: ["java"]
+        args: ["$(SERVER_PORT)", "$(DISCOVERY_SERVER_URL)", "$(BIZ_APPLICATION_URL)", "-jar", "/usr/src/admin-application-SNAPSHOT.jar"]

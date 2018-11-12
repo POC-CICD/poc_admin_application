@@ -1,0 +1,36 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: admin-application-blue
+  namespace: devopspoc
+  labels:
+    name: admin-application
+    service: admin-application-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: admin-application
+      type: frontend
+  template:
+    metadata:
+      labels:
+        name: admin-application
+        type: frontend
+        version: "1"
+        deploymentType: BLUE
+    spec:
+      containers:
+      - name: admin-application
+        image: nisumpk/admin_application
+        ports:
+        - containerPort: 9401
+        env:
+        - name: SERVER_PORT
+          value: -Dserver.port=9401
+        - name: BIZ_APPLICATION_URL
+          value: -Dbiz.application.url=http://biz-application-service:9601
+        - name: DISCOVERY_SERVER_URL
+          value: "-Deureka.client.serviceUrl.defaultZone=http://discovery-server-service:7001/eureka/"
+        command: ["java"]
+        args: ["$(SERVER_PORT)", "$(DISCOVERY_SERVER_URL)", "$(BIZ_APPLICATION_URL)", "-Deureka.instance.preferIpAddress=true", "-Deureka.instance.ipAddress=admin-application-service", "-jar", "/usr/src/admin-application-SNAPSHOT.jar"]
