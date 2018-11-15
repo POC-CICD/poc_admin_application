@@ -109,7 +109,8 @@ pipeline {
                 }
 
                 build job: '/DevOpsPOC_BlueGreen_Deploy_AdminApp', parameters: [
-                    [$class: 'TextParameterValue', name: 'ImageTag', value: appVersion + "_${BUILD_NUMBER}_" + gitStatus]
+//                    [$class: 'StringParameterDefinition', name: 'ImageTag', value: appVersion + "_${BUILD_NUMBER}_" + gitStatus]
+                    [string, name: 'ImageTag', value: appVersion + "_${BUILD_NUMBER}_" + gitStatus]
                 ]
             }
 
