@@ -53,7 +53,7 @@ pipeline {
     }
 
     parameters {
-      string(defaultValue: 'latest', description: '', name: 'ImageTag')
+      string(defaultValue: ImageTag, description: '', name: 'ImageTag')
     }
 
     stages {
