@@ -2,6 +2,10 @@ def app = [appName: 'admin-application',   appPort: '9601']
 
 pipeline {
 
+    parameters {
+      string(defaultValue: '', description: '', name: 'ImageTag')
+    }
+
     /* Environment variables related to docker hub */
     environment {
         registry = "nisumpk"
