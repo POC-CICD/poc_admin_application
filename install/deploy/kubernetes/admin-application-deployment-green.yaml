@@ -23,6 +23,7 @@ spec:
       containers:
       - name: admin-application
         image: nisumpk/admin_application
+        imagePullPolicy: Always
         ports:
         - containerPort: 9401
         env:
