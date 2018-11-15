@@ -106,12 +106,16 @@ pipeline {
 
                     appVersion = readFile('version').trim()
 
+                    def buildParams = params.collect{
+                        string(name: ImageTag, value: appVersion + "_${BUILD_NUMBER}_" + gitStatus)
+                    }
+
+                    build job: '/DevOpsPOC_BlueGreen_Deploy_AdminApp', parameters: buildParams
+
+//                    [$class: 'StringParameterDefinition', name: 'ImageTag', value: appVersion + "_${BUILD_NUMBER}_" + gitStatus]
+
                 }
 
-                build job: '/DevOpsPOC_BlueGreen_Deploy_AdminApp', parameters: [
-//                    [$class: 'StringParameterDefinition', name: 'ImageTag', value: appVersion + "_${BUILD_NUMBER}_" + gitStatus]
-                    [string, name: 'ImageTag', value: appVersion + "_${BUILD_NUMBER}_" + gitStatus]
-                ]
             }
 
         } // end of stage
