@@ -52,9 +52,9 @@ pipeline {
             switchTo  = ''
     }
 
-    parameters {
+/*    parameters {
       string(defaultValue: ImageTag, description: '', name: 'ImageTag')
-    }
+    } */
 
     stages {
 		stage('Clone Repo') {
