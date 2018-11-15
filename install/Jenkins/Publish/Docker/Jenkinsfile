@@ -101,7 +101,16 @@ pipeline {
         stage('Trigger Blue/Green Deployment') {
 
             steps {
-                build job: '/DevOpsPOC_BlueGreen_Deploy_AdminApp'
+
+                script {
+
+                    appVersion = readFile('version').trim()
+
+                }
+
+                build job: '/DevOpsPOC_BlueGreen_Deploy_AdminApp', parameters: [
+                    [$class: 'TextParameterValue', name: 'ImageTag', value: appVersion + "_${BUILD_NUMBER}_" + gitStatus]
+                ]
             }
 
         } // end of stage
