@@ -2,4 +2,4 @@ apiVersion: v1
 appVersion: "1.0"
 description: A Helm chart for admin-application to deploy Blue/Green in Kubernetes.
 name: admin-application
-version: 0.1.0
+version: v1.0.0
