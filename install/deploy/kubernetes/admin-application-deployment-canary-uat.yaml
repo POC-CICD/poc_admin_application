@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
       - name: admin-application-uat
-        image: nisumpk/admin_application
+        image: poccicdsaad/admin_application
         ports:
         - containerPort: 9401
         env:
