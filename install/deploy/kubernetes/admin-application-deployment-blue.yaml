@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: admin-application
-        image: nisumpk/admin_application
+        image: poccicdsaad/admin_application
         imagePullPolicy: Always
         ports:
         - containerPort: 9401
