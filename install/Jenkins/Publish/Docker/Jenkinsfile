@@ -1,6 +1,7 @@
 def app = [appName: 'admin-application',   appPort: '9601']
 def HELM_CHART_FILE = ''
 def HELM_CHART_REPO_URL = 'https://github.com/POC-CICD/DevOpsPOC.git'
+def dockerImageTag = ''
 
 pipeline {
 
@@ -78,6 +79,7 @@ pipeline {
                commit= sh (returnStatus: true, script: "git log -1 --pretty=%h > gitOutput.txt")
                gitStatus = readFile('gitOutput.txt').trim()
                ver = readFile('version').trim()
+               dockerImageTag = app.appName.replaceAll("-", "_") + ":" + appVersion + "_${BUILD_NUMBER}_" + gitStatus
                try {
                    /* Uploading image to docker hub using docker cli */
                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.registryCredential}",
@@ -178,7 +180,7 @@ pipeline {
 
     stage('Trigger Blue/Green Deployment') {
           steps {
-            build job: '/service-deploy-admin-application'
+            build job: '/service-deploy-admin-application', parameters: [[$class: 'StringParameterValue', name: 'imgaeTag', value: dockerImageTag]], wait: false
           }
     }
 
