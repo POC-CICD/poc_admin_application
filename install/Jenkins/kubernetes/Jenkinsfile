@@ -40,6 +40,10 @@ def deleteK8Config(configPath) {
 pipeline {
 
     agent { label "k8-master" }
+	
+   parameters {
+        string(defaultValue: 'latest', description: '', name: 'imgaeTag')
+    }	
 
     environment {
 
@@ -83,7 +87,7 @@ pipeline {
             }
 		    steps {
 
-                sh "sed -i \'s/nisumpk\\/admin_application/nisumpk\\/admin_application:${params.ImageTag}/\' ${env.k8configPath}/${env.appName}-deployment-${env.switchTo}.yaml"
+                sh "sed -i 's;poccicdsaad/admin_application;poccicdsaad/admin_application:${params.imgaeTag};' ${env.k8configPath}/${env.appName}-deployment-${env.switchTo}.yaml"
 
                 applyK8Config(env.k8configPath + "/" + env.appName + "-deployment-" + env.switchTo + ".yaml")
 
