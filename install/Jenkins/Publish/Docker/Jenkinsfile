@@ -79,7 +79,7 @@ pipeline {
                commit= sh (returnStatus: true, script: "git log -1 --pretty=%h > gitOutput.txt")
                gitStatus = readFile('gitOutput.txt').trim()
                ver = readFile('version').trim()
-               dockerImageTag = app.appName.replaceAll("-", "_") + ":" + appVersion + "_${BUILD_NUMBER}_" + gitStatus
+               dockerImageTag = appVersion + "_${BUILD_NUMBER}_" + gitStatus
                try {
                    /* Uploading image to docker hub using docker cli */
                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: "${env.registryCredential}",
