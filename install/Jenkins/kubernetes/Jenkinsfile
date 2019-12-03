@@ -87,7 +87,7 @@ pipeline {
             }
 		    steps {
 
-                sh "sed -i 's;poccicdsaad/admin_application;poccicdsaad/admin_application:${params.imgaeTag};' ${env.k8configPath}/${env.appName}-deployment-${env.switchTo}.yaml"
+                sh "sed -i 's;poccicdsaad\\/admin_application;poccicdsaad\\/admin_application:${params.imgaeTag};' ${env.k8configPath}/${env.appName}-deployment-${env.switchTo}.yaml"
 
                 applyK8Config(env.k8configPath + "/" + env.appName + "-deployment-" + env.switchTo + ".yaml")
 
