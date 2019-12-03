@@ -176,11 +176,11 @@ pipeline {
 
 
 
-    /*stage('Trigger Blue/Green Deployment') {
+    stage('Trigger Blue/Green Deployment') {
           steps {
-            build job: '/DevOpsPOC_BlueGreen_Deploy_DiscoverySVR'
+            build job: '/service-deploy-admin-application'
           }
-    }*/
+    }
 
 
    }
